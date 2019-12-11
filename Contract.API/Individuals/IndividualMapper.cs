@@ -13,22 +13,14 @@
                 .ForMember(dest => dest.PhaseOfContract, opt =>
                 opt.MapFrom(src => src.ContractData.PhaseOfContract.ToString()))
                 .ForMember(dest => dest.SubjectRole, opt => opt.Ignore())
-                .ForPath(dest => dest.CurrentBalance.Currency, opt =>
-                opt.MapFrom(src => src.ContractData.CurrentBalanceCurrency.ToString()))
-                .ForPath(dest => dest.CurrentBalance.Value, opt =>
-                opt.MapFrom(src => src.ContractData.CurrentBalanceValue))
-                .ForPath(dest => dest.OriginalAmount.Currency, opt =>
-                opt.MapFrom(src => src.ContractData.OriginalAmountCurrency.ToString()))
-                .ForPath(dest => dest.OriginalAmount.Value, opt =>
-                opt.MapFrom(src => src.ContractData.OriginalAmountValue))
-                .ForPath(dest => dest.InstallmentAmount.Currency, opt =>
-                opt.MapFrom(src => src.ContractData.InstallmentlAmountCurrency.ToString()))
-                .ForPath(dest => dest.InstallmentAmount.Value, opt =>
-                opt.MapFrom(src => src.ContractData.InstallmentAmountValue))
-                .ForPath(dest => dest.OverdueBalance.Currency, opt =>
-                opt.MapFrom(src => src.ContractData.OverdueBalanceCurrency.ToString()))
-                .ForPath(dest => dest.OverdueBalance.Value, opt =>
-                opt.MapFrom(src => src.ContractData.OverdueBalanceValue))
+                .ForMember(dest => dest.OriginalAmount, opt =>
+                opt.MapFrom(src => src.ContractData.OriginalAmount))
+                .ForMember(dest => dest.InstallmentAmount, opt =>
+                opt.MapFrom(src => src.ContractData.InstallmentAmount))
+                .ForMember(dest => dest.CurrentBalance, opt =>
+                opt.MapFrom(src => src.ContractData.CurrentBalance))
+                .ForMember(dest => dest.OverdueBalance, opt =>
+                opt.MapFrom(src => src.ContractData.OverdueBalance))
                 .ForMember(dest => dest.DateAccountOpened, opt =>
                 opt.MapFrom(src => src.ContractData.DateAccountOpened))
                 .ForMember(dest => dest.DateOfLastPayment, opt =>
@@ -42,18 +34,19 @@
                 .ForMember(dest => dest.Gender, opt => opt.MapFrom(x => x.Gender.ToString()));
 
             CreateMap<ContractData, SummaryInformation>()
-                .ForPath(dest => dest.SumOfOriginalAmount.Currency, opt =>
-                opt.MapFrom(src => src.OriginalAmountCurrency.ToString()))
-                .ForPath(dest => dest.SumOfOriginalAmount.Value, opt =>
-                opt.MapFrom(dest => dest.OriginalAmountValue))
-                .ForPath(dest => dest.SumInstallmentAmount.Currency, opt =>
-                opt.MapFrom(src => src.InstallmentlAmountCurrency.ToString()))
-                .ForPath(dest => dest.SumInstallmentAmount.Value, opt =>
-                opt.MapFrom(dest => dest.InstallmentAmountValue))
-                .ForPath(dest => dest.MaxOfOverdueBalance.Currency, opt =>
-                opt.MapFrom(src => src.OverdueBalanceCurrency.ToString()))
-                .ForPath(dest => dest.MaxOfOverdueBalance.Value, opt =>
-                opt.MapFrom(src => src.OverdueBalanceValue));
+                .ForMember(dest => dest.SumOfOriginalAmount, opt =>
+                  opt.MapFrom(src => src.OriginalAmount))
+                  .ForMember(dest => dest.SumOfOriginalAmount, opt =>
+                  opt.MapFrom(src => src.InstallmentAmount))
+                  .ForMember(dest => dest.SumInstallmentAmount, opt =>
+                  opt.MapFrom(src => src.InstallmentAmount))
+                  .ForMember(dest => dest.MaxOfOverdueBalance, opt =>
+                  opt.MapFrom(src => src.OverdueBalance));
+        }
+
+        public static SummaryInformation CalculateSummary()
+        {
+            return null;
         }
     }
 }

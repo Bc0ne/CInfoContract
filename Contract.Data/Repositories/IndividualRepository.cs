@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Contract.Core.Contract;
     using Contract.Core.Individual;
     using Contract.Data.Context;
     using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,12 @@
         public IndividualRepository(ContractDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+        }
+
+        public async Task<Contract> GetContractAsync(long id)
+        {
+            return await _context.Contracts.Where(x => x.Id == id)
+                .Include(x => x.ContractData).FirstOrDefaultAsync();
         }
 
         public async Task<Individual> GetIndividualByNationalIdAsync(string nationalId)

@@ -1,5 +1,7 @@
 ﻿namespace Contract.API.Individuals
 {
+    using System;
+    using System.Threading.Tasks;
     using AutoMapper;
     using Contract.Core.Individual;
     using Contract.Core.SubjectRole;
@@ -7,8 +9,7 @@
     using Contract.Web.Models.Contract;
     using Contract.Web.Models.Individual;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Threading.Tasks;
+    
 
     [Route("api/individuals")]
     [ApiController]
@@ -22,6 +23,14 @@
         {
             _individualRepository = individualRepository ?? throw new ArgumentNullException(nameof(individualRepository));
             _subjectRoleRepository = subjectRoleRepository ?? throw new ArgumentNullException(nameof(subjectRoleRepository));
+        }
+
+        [HttpGet("{id}/contract")]
+        public async Task<IActionResult> GetContractById(long id)
+        {
+            var contract = await _individualRepository.GetContractAsync(id);
+
+            return Ok(contract);
         }
 
         [HttpGet("{nationalId}/search")]

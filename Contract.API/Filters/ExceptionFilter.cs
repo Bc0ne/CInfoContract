@@ -1,10 +1,10 @@
 ﻿namespace Contract.API.Filters
 {
+    using System;
+    using System.Net;
     using Contract.Web.Models;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
-    using System;
-    using System.Net;
 
     public class ExceptionFilter : ExceptionFilterAttribute
     {

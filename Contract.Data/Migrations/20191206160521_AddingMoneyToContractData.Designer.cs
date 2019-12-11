@@ -4,14 +4,16 @@ using Contract.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Contract.Data.Migrations
 {
     [DbContext(typeof(ContractDbContext))]
-    partial class ContractDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191206160521_AddingMoneyToContractData")]
+    partial class AddingMoneyToContractData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,15 +51,31 @@ namespace Contract.Data.Migrations
 
                     b.Property<DateTime>("CreationTime");
 
+                    b.Property<int>("CurrentBalanceCurrency");
+
+                    b.Property<decimal>("CurrentBalanceValue");
+
                     b.Property<DateTime?>("DateAccountOpened");
 
                     b.Property<DateTime?>("DateOfLastPayment");
 
                     b.Property<DateTime?>("DeletionTime");
 
+                    b.Property<decimal?>("InstallmentAmountValue");
+
+                    b.Property<int?>("InstallmentlAmountCurrency");
+
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime?>("NextPaymentDate");
+
+                    b.Property<int?>("OriginalAmountCurrency");
+
+                    b.Property<decimal?>("OriginalAmountValue");
+
+                    b.Property<int?>("OverdueBalanceCurrency");
+
+                    b.Property<decimal?>("OverdueBalanceValue");
 
                     b.Property<int>("PhaseOfContract");
 
@@ -121,6 +139,10 @@ namespace Contract.Data.Migrations
                         .IsRequired();
 
                     b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<int?>("GuaranteeAmountCurrency");
+
+                    b.Property<decimal?>("GuaranteeAmountValue");
 
                     b.Property<bool>("IsDeleted");
 

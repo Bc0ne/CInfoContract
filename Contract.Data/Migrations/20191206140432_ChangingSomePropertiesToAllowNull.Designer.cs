@@ -4,14 +4,16 @@ using Contract.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Contract.Data.Migrations
 {
     [DbContext(typeof(ContractDbContext))]
-    partial class ContractDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191206140432_ChangingSomePropertiesToAllowNull")]
+    partial class ChangingSomePropertiesToAllowNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,15 +51,31 @@ namespace Contract.Data.Migrations
 
                     b.Property<DateTime>("CreationTime");
 
+                    b.Property<int>("CurrentBalanceCurrency");
+
+                    b.Property<decimal>("CurrentBalanceValue");
+
                     b.Property<DateTime?>("DateAccountOpened");
 
                     b.Property<DateTime?>("DateOfLastPayment");
 
                     b.Property<DateTime?>("DeletionTime");
 
+                    b.Property<decimal?>("InstallmentAmountValue");
+
+                    b.Property<int?>("InstallmentlAmountCurrency");
+
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime?>("NextPaymentDate");
+
+                    b.Property<int?>("OriginalAmountCurrency");
+
+                    b.Property<decimal?>("OriginalAmountValue");
+
+                    b.Property<int?>("OverdueBalanceCurrency");
+
+                    b.Property<decimal?>("OverdueBalanceValue");
 
                     b.Property<int>("PhaseOfContract");
 
@@ -122,6 +140,10 @@ namespace Contract.Data.Migrations
 
                     b.Property<DateTime?>("DeletionTime");
 
+                    b.Property<int?>("GuaranteeAmountCurrency");
+
+                    b.Property<decimal?>("GuaranteeAmountValue");
+
                     b.Property<bool>("IsDeleted");
 
                     b.Property<int>("RoleOfCustomer");
@@ -139,87 +161,6 @@ namespace Contract.Data.Migrations
                         .WithOne("ContractData")
                         .HasForeignKey("Contract.Core.Contract.ContractData", "ContractId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.OwnsOne("Contract.Core.Money", "CurrentBalance", b1 =>
-                        {
-                            b1.Property<long>("ContractDataId")
-                                .ValueGeneratedOnAdd()
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<int>("Currency");
-
-                            b1.Property<decimal?>("Value")
-                                .IsRequired();
-
-                            b1.HasKey("ContractDataId");
-
-                            b1.ToTable("ContractsData");
-
-                            b1.HasOne("Contract.Core.Contract.ContractData")
-                                .WithOne("CurrentBalance")
-                                .HasForeignKey("Contract.Core.Money", "ContractDataId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("Contract.Core.Money", "InstallmentAmount", b1 =>
-                        {
-                            b1.Property<long>("ContractDataId")
-                                .ValueGeneratedOnAdd()
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<int?>("Currency");
-
-                            b1.Property<decimal?>("Value");
-
-                            b1.HasKey("ContractDataId");
-
-                            b1.ToTable("ContractsData");
-
-                            b1.HasOne("Contract.Core.Contract.ContractData")
-                                .WithOne("InstallmentAmount")
-                                .HasForeignKey("Contract.Core.Money", "ContractDataId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("Contract.Core.Money", "OriginalAmount", b1 =>
-                        {
-                            b1.Property<long>("ContractDataId")
-                                .ValueGeneratedOnAdd()
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<int?>("Currency");
-
-                            b1.Property<decimal?>("Value");
-
-                            b1.HasKey("ContractDataId");
-
-                            b1.ToTable("ContractsData");
-
-                            b1.HasOne("Contract.Core.Contract.ContractData")
-                                .WithOne("OriginalAmount")
-                                .HasForeignKey("Contract.Core.Money", "ContractDataId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("Contract.Core.Money", "OverdueBalance", b1 =>
-                        {
-                            b1.Property<long>("ContractDataId")
-                                .ValueGeneratedOnAdd()
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<int?>("Currency");
-
-                            b1.Property<decimal?>("Value");
-
-                            b1.HasKey("ContractDataId");
-
-                            b1.ToTable("ContractsData");
-
-                            b1.HasOne("Contract.Core.Contract.ContractData")
-                                .WithOne("OverdueBalance")
-                                .HasForeignKey("Contract.Core.Money", "ContractDataId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
                 });
 
             modelBuilder.Entity("Contract.Core.Individual.Individual", b =>
@@ -236,26 +177,6 @@ namespace Contract.Data.Migrations
                         .WithMany("SubjectRoles")
                         .HasForeignKey("ContractId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.OwnsOne("Contract.Core.Money", "GuranateeAmount", b1 =>
-                        {
-                            b1.Property<long>("SubjectRoleId")
-                                .ValueGeneratedOnAdd()
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<int?>("Currency");
-
-                            b1.Property<decimal?>("Value");
-
-                            b1.HasKey("SubjectRoleId");
-
-                            b1.ToTable("SubjectRole");
-
-                            b1.HasOne("Contract.Core.SubjectRole.SubjectRole")
-                                .WithOne("GuranateeAmount")
-                                .HasForeignKey("Contract.Core.Money", "SubjectRoleId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
                 });
 #pragma warning restore 612, 618
         }

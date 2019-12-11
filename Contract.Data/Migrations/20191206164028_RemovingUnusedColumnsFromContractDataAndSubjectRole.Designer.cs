@@ -4,14 +4,16 @@ using Contract.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Contract.Data.Migrations
 {
     [DbContext(typeof(ContractDbContext))]
-    partial class ContractDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191206164028_RemovingUnusedColumnsFromContractDataAndSubjectRole")]
+    partial class RemovingUnusedColumnsFromContractDataAndSubjectRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

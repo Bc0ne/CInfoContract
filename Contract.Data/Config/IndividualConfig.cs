@@ -13,7 +13,7 @@
                 .ValueGeneratedOnAdd();
 
             builder
-                .Property(x => x.NationalId)
+                .Property(x => x.CustomerCode)
                 .IsRequired();
 
             builder

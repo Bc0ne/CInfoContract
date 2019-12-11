@@ -1,16 +1,33 @@
 ﻿namespace Contract.Core.SubjectRole
 {
+    using System;
     using Contract;
-    using Individual;
-    using System.Collections.Generic;
 
     public class SubjectRole : DomainEntity
     {
-        public string CustomerCode { get; set; }
-        public CustomerRole RoleOfCustomer { get; set; }
-        public decimal GuaranteeAmountValue { get; set; }
-        public Currency GuaranteeAmountCurrency { get; set; }
-        public long ContractId { get; set; }
-        public virtual Contract Contract { get; set; }
+        public string CustomerCode { get; private set; }
+        public CustomerRole RoleOfCustomer { get; private set; }
+        public Money GuranateeAmount { get; private set; }
+        public long ContractId { get; private set; }
+        public virtual Contract Contract { get; private set; }
+
+        public static SubjectRole New(string customerCode,
+            CustomerRole roleOfCustomer,
+            Money guaranteeAmount)
+        {
+
+            if (customerCode is null)
+            {
+                throw new ArgumentNullException(nameof(customerCode));
+            }
+
+            return new SubjectRole
+            {
+                CreationTime = DateTime.Now,
+                CustomerCode = customerCode,
+                RoleOfCustomer = roleOfCustomer,
+                GuranateeAmount = guaranteeAmount
+            };
+        }
     }
 }

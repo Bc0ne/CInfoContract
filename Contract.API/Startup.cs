@@ -1,5 +1,6 @@
 ﻿namespace Contract.API
 {
+    using System;
     using Autofac;
     using Contract.API.Bootstraper;
     using Contract.API.Filters;
@@ -11,7 +12,6 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Swashbuckle.AspNetCore.Swagger;
-    using System;
 
     public class Startup
     {
