@@ -6,6 +6,5 @@
     public interface IIndividualRepository
     {
         Task<Individual> GetIndividualByNationalIdAsync(string nationalId);
-        Task<Contract> GetContractAsync(long id);
     }
 }

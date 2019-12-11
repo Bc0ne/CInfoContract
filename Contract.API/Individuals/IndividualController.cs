@@ -25,14 +25,6 @@
             _subjectRoleRepository = subjectRoleRepository ?? throw new ArgumentNullException(nameof(subjectRoleRepository));
         }
 
-        [HttpGet("{id}/contract")]
-        public async Task<IActionResult> GetContractById(long id)
-        {
-            var contract = await _individualRepository.GetContractAsync(id);
-
-            return Ok(contract);
-        }
-
         [HttpGet("{nationalId}/search")]
         public async Task<IActionResult> SearchIndividualByNationalId(string nationalId)
         {
