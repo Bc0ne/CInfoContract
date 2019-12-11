@@ -13,9 +13,6 @@
 
     public class Program
     {
-        private const string ConnectionString =
-            "Data Source=.;Initial Catalog=ContractDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=false;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-
         static void Main(string[] args)
         {
             var configuration = Configure();
@@ -39,9 +36,9 @@
         private static IServiceCollection ConfigureServices(IConfiguration configuration)
         {
             IServiceCollection services = new ServiceCollection();
-
+            var connectionstring = configuration.GetConnectionString("ContractConnectionString");
             services.AddDbContext<ContractDbContext>(options =>
-            options.UseDatabase(SupportedDatabase.SqlServer, ConnectionString));
+            options.UseDatabase(SupportedDatabase.SqlServer, connectionstring));
 
             services.AddSingleton<IContractRepository, ContractRepository>();
 
