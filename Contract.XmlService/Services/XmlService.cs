@@ -12,8 +12,10 @@
     using System.Xml;
     using System.Xml.Serialization;
     using System.Collections;
+    using Microsoft.Extensions.Hosting;
+    using System.Threading;
 
-    public class XmlService
+    public class XmlService : IHostedService, IDisposable
     {
         private readonly IContractRepository _contractRepository;
         private readonly XmlConfig _xmlConfig;
@@ -25,7 +27,7 @@
             _xmlConfig = xmlConfig;
         }
 
-        public void Validate()
+        public async Task ValidateAsync()
         {
             // The XML document to deserialize into the XmlSerializer object.
             XmlReader reader = XmlReader.Create(_xmlConfig.XmlDataUrlLocation,
@@ -194,7 +196,7 @@
             // Close the XmlReader object.
             reader.Close();
 
-            ExtractAsync(validContracts);
+            await ExtractAsync(validContracts);
         }
 
         static XmlSchemaInfo schemaInfo = new XmlSchemaInfo();
@@ -289,7 +291,7 @@
                 foreach (var role in con.SubjectRole)
                 {
                     var guaranteeAmount = role.GuaranteeAmount is null ? new Money()
-                    : Money.New(role.GuaranteeAmount.Value,role.GuaranteeAmount.Currency);
+                    : Money.New(role.GuaranteeAmount.Value, role.GuaranteeAmount.Currency);
 
                     var subjectRole = SubjectRole.New(role.CustomerCode,
                         role.RoleOfCustomer.Value,
@@ -323,6 +325,25 @@
             {
                 Console.WriteLine(ex);
             }
+        }
+
+        public Task StartAsync(CancellationToken cancellationToken)
+        {
+            Console.WriteLine($"XmlExtractor service has been started...");
+            ValidateAsync();
+
+            return Task.CompletedTask;
+        }
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            Console.WriteLine($"XmlExtractor service has been stopped...");
+            return Task.CompletedTask;
+        }
+
+        public void Dispose()
+        {
+            Console.Write("Disposing...");
         }
     }
 }
