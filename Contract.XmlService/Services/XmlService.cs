@@ -54,7 +54,7 @@
             // Initialize the XmlSchemaValidator object.
             validator.Initialize();
 
-            // Validate the bookstore element, verify that all required attributes are present
+            // Validate the batch element, verify that all required attributes are present
             // and prepare to validate child content.
             validator.ValidateElement("Batch", _xmlConfig.SchemaNamespaceUrlLocation, null);
             validator.GetUnspecifiedDefaultAttributes(new ArrayList());
